@@ -650,7 +650,7 @@ class VectorNumpy(Vector, GetItem):
     ) -> typing.Any:
         """
         Implement numpy functions for :class:`vector._backends.numpy_.VectorNumpy`. Currently
-        implement ``numpy.isclose`` and ``numpy.allclose``.
+        implements ``numpy.isclose`` and ``numpy.allclose``.
         """
         if func is numpy.isclose:
             return type(self).isclose(*args, **kwargs)
@@ -699,8 +699,8 @@ class VectorNumpy2D(VectorNumpy, Planar, Vector2D, FloatArray):  # type: ignore[
         self, func: typing.Any, types: typing.Any, args: typing.Any, kwargs: typing.Any
     ) -> typing.Any:
         """
-        Implement numpy functions for :class:`vector._backends.numpy_.VectorNumpy`. Currently
-        implement ``numpy.sum``.
+        Implement numpy functions for :class:`vector._backends.numpy_.VectorNumpy2D`. Currently
+        implements ``numpy.sum``.
 
         The current implementation of ``numpy.sum`` allows the 'axis', 'dtype', and 'initial'
         keyword arguments.
@@ -713,31 +713,27 @@ class VectorNumpy2D(VectorNumpy, Planar, Vector2D, FloatArray):  # type: ignore[
             dtype = kwargs["dtype"] if "dtype" in kwargs else None
             initial = kwargs["initial"] if "initial" in kwargs else 0.0
 
-            is_xy = args[0]._azimuthal_type == AzimuthalNumpyXY
+            vec = args[0]
+            names = _coordinate_class_to_names[_aztype(vec)]
 
             if axis is None:
-                sum_val = (
-                    numpy.sum(args[0].x) + numpy.sum(args[0].y)
-                    if is_xy
-                    else numpy.sum(args[0].rho) + numpy.sum(args[0].phi)
+                sum_val = numpy.sum(getattr(vec, names[0])) + numpy.sum(
+                    getattr(vec, names[1])
                 )
             elif axis == 0:
-                sum_val = (
-                    numpy.array(
-                        [numpy.sum(args[0].x), numpy.sum(args[0].y)],
-                    )
-                    if is_xy
-                    else numpy.array(
-                        [numpy.sum(args[0].rho), numpy.sum(args[0].phi)],
-                    )
+                sum_val = numpy.array(
+                    [
+                        numpy.sum(getattr(vec, names[0])),
+                        numpy.sum(getattr(vec, names[1])),
+                    ]
                 )
             elif axis == 1:
-                sum_val = args[0].x + args[0].y if is_xy else args[0].rho + args[0].phi
+                sum_val = getattr(vec, names[0]) + getattr(vec, names[1])
 
             sum_val += initial
             if isinstance(sum_val, numpy.ndarray):
                 sum_val = sum_val.astype(dtype)
-            else:
+            elif dtype is not None:
                 sum_val = dtype(sum_val)
             return sum_val
         else:
@@ -976,6 +972,17 @@ class VectorNumpy3D(VectorNumpy, Spatial, Vector3D, FloatArray):  # type: ignore
 
     def __repr__(self) -> str:
         return _array_repr(self, False)
+
+    def __array_function__(
+        self, func: typing.Any, types: typing.Any, args: typing.Any, kwargs: typing.Any
+    ) -> typing.Any:
+        """
+        Implement numpy functions for :class:`vector._backends.numpy_.VectorNumpy3D`. Currently
+        implements ``numpy.sum``.
+
+        The current implementation of ``numpy.sum`` allows the 'axis', 'dtype', and 'initial'
+        keyword arguments.
+        """
 
     @property
     def azimuthal(self) -> AzimuthalNumpy:
