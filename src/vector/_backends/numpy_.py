@@ -656,6 +656,8 @@ class VectorNumpy(Vector, GetItem):
             return type(self).isclose(*args, **kwargs)
         elif func is numpy.allclose:
             return type(self).allclose(*args, **kwargs)
+        elif func is numpy.sum:
+            return type(self).sum(*args, **kwargs)
         else:
             return NotImplemented
 
@@ -694,50 +696,6 @@ class VectorNumpy2D(VectorNumpy, Planar, Vector2D, FloatArray):  # type: ignore[
 
     def __repr__(self) -> str:
         return _array_repr(self, False)
-
-    def __array_function__(
-        self, func: typing.Any, types: typing.Any, args: typing.Any, kwargs: typing.Any
-    ) -> typing.Any:
-        """
-        Implement numpy functions for :class:`vector._backends.numpy_.VectorNumpy2D`. Currently
-        implements ``numpy.sum``.
-
-        The current implementation of ``numpy.sum`` allows the 'axis', 'dtype', and 'initial'
-        keyword arguments.
-        """
-        if func is numpy.sum:
-            if len(args) != 1:
-                raise ValueError("numpy.sum expects a single positional argument")
-
-            axis = kwargs["axis"] if "axis" in kwargs else None
-            dtype = kwargs["dtype"] if "dtype" in kwargs else None
-            initial = kwargs["initial"] if "initial" in kwargs else 0.0
-
-            vec = args[0]
-            names = _coordinate_class_to_names[_aztype(vec)]
-
-            if axis is None:
-                sum_val = numpy.sum(getattr(vec, names[0])) + numpy.sum(
-                    getattr(vec, names[1])
-                )
-            elif axis == 0:
-                sum_val = numpy.array(
-                    [
-                        numpy.sum(getattr(vec, names[0])),
-                        numpy.sum(getattr(vec, names[1])),
-                    ]
-                )
-            elif axis == 1:
-                sum_val = getattr(vec, names[0]) + getattr(vec, names[1])
-
-            sum_val += initial
-            if isinstance(sum_val, numpy.ndarray):
-                sum_val = sum_val.astype(dtype)
-            elif dtype is not None:
-                sum_val = dtype(sum_val)
-            return sum_val
-        else:
-            return NotImplemented
 
     @property
     def azimuthal(self) -> AzimuthalNumpy:
@@ -972,17 +930,6 @@ class VectorNumpy3D(VectorNumpy, Spatial, Vector3D, FloatArray):  # type: ignore
 
     def __repr__(self) -> str:
         return _array_repr(self, False)
-
-    def __array_function__(
-        self, func: typing.Any, types: typing.Any, args: typing.Any, kwargs: typing.Any
-    ) -> typing.Any:
-        """
-        Implement numpy functions for :class:`vector._backends.numpy_.VectorNumpy3D`. Currently
-        implements ``numpy.sum``.
-
-        The current implementation of ``numpy.sum`` allows the 'axis', 'dtype', and 'initial'
-        keyword arguments.
-        """
 
     @property
     def azimuthal(self) -> AzimuthalNumpy:

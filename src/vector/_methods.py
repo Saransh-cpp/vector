@@ -420,6 +420,20 @@ class VectorProtocol:
         """
         raise AssertionError
 
+    def sum(
+        self,
+        axis: typing.Optional[int] = None,
+        dtype: typing.Any = None,
+        initial: ScalarCollection = 0,
+    ) -> typing.Any:
+        """
+        Calculates sum of coordinates of a vector.
+
+        The arguments ``axis``, ``dtype``, and ``initial`` are interpreted as in
+        ``np.sum``.
+        """
+        raise AssertionError
+
 
 class VectorProtocolPlanar(VectorProtocol):
     @property
@@ -1930,6 +1944,37 @@ class Planar(VectorProtocolPlanar):
             )
         return isclose.dispatch(rtol, atol, equal_nan, self, other)
 
+    def sum(
+        self,
+        axis: typing.Optional[int] = None,
+        dtype: typing.Any = None,
+        initial: ScalarCollection = 0,
+    ) -> typing.Any:
+        import numpy
+
+        names = _coordinate_class_to_names[_aztype(self)]
+
+        if axis is None:
+            sum_val = numpy.sum(getattr(self, names[0])) + numpy.sum(
+                getattr(self, names[1])
+            )
+        elif axis == 0:
+            sum_val = numpy.array(
+                [
+                    numpy.sum(getattr(self, names[0])),
+                    numpy.sum(getattr(self, names[1])),
+                ]
+            )
+        elif axis == 1:
+            sum_val = getattr(self, names[0]) + getattr(self, names[1])
+
+        sum_val += initial
+        if isinstance(sum_val, numpy.ndarray):
+            sum_val = sum_val.astype(dtype)
+        elif dtype is not None:
+            sum_val = dtype(sum_val)
+        return sum_val
+
 
 class Spatial(Planar, VectorProtocolSpatial):
     @property
@@ -2161,6 +2206,37 @@ class Spatial(Planar, VectorProtocolSpatial):
                 f"{repr(self)} and {repr(other)} do not have the same dimension"
             )
         return isclose.dispatch(rtol, atol, equal_nan, self, other)
+
+    def sum(
+        self,
+        axis: typing.Optional[int] = None,
+        dtype: typing.Any = None,
+        initial: ScalarCollection = 0,
+    ) -> typing.Any:
+        import numpy
+
+        planar_sum = self.to_Vector2D().sum()
+        names = _coordinate_class_to_names[_ltype(self)]
+
+        if axis is None:
+            sum_val = planar_sum + numpy.sum(getattr(self, names[0]))
+        elif axis == 0:
+            sum_val = numpy.array(
+                [
+                    planar_sum[0],
+                    planar_sum[1],
+                    numpy.sum(getattr(self, names[0])),
+                ]
+            )
+        elif axis == 1:
+            sum_val = planar_sum + getattr(self, names[0])
+
+        sum_val += initial
+        if isinstance(sum_val, numpy.ndarray):
+            sum_val = sum_val.astype(dtype)
+        elif dtype is not None:
+            sum_val = dtype(sum_val)
+        return sum_val
 
 
 class Lorentz(Spatial, VectorProtocolLorentz):
@@ -2422,6 +2498,38 @@ class Lorentz(Spatial, VectorProtocolLorentz):
                 f"{repr(self)} and {repr(other)} do not have the same dimension"
             )
         return isclose.dispatch(rtol, atol, equal_nan, self, other)
+
+    def sum(
+        self,
+        axis: typing.Optional[int] = None,
+        dtype: typing.Any = None,
+        initial: ScalarCollection = 0,
+    ) -> typing.Any:
+        import numpy
+
+        three_d_sum = self.to_Vector2D().sum()
+        names = _coordinate_class_to_names[_ttype(self)]
+
+        if axis is None:
+            sum_val = three_d_sum + numpy.sum(getattr(self, names[0]))
+        elif axis == 0:
+            sum_val = numpy.array(
+                [
+                    three_d_sum[0],
+                    three_d_sum[1],
+                    three_d_sum[2],
+                    numpy.sum(getattr(self, names[0])),
+                ]
+            )
+        elif axis == 1:
+            sum_val = three_d_sum + getattr(self, names[0])
+
+        sum_val += initial
+        if isinstance(sum_val, numpy.ndarray):
+            sum_val = sum_val.astype(dtype)
+        elif dtype is not None:
+            sum_val = dtype(sum_val)
+        return sum_val
 
 
 class Momentum:
