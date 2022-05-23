@@ -648,6 +648,10 @@ class VectorNumpy(Vector, GetItem):
     def __array_function__(
         self, func: typing.Any, types: typing.Any, args: typing.Any, kwargs: typing.Any
     ) -> typing.Any:
+        """
+        Implement numpy functions for :class:`vector._backends.numpy_.VectorNumpy`. Currently
+        implement ``numpy.isclose`` and ``numpy.allclose``.
+        """
         if func is numpy.isclose:
             return type(self).isclose(*args, **kwargs)
         elif func is numpy.allclose:
@@ -690,6 +694,51 @@ class VectorNumpy2D(VectorNumpy, Planar, Vector2D, FloatArray):  # type: ignore[
 
     def __repr__(self) -> str:
         return _array_repr(self, False)
+
+    def __array_function__(
+        self, func: typing.Any, types: typing.Any, args: typing.Any, kwargs: typing.Any
+    ) -> typing.Any:
+        """
+        Implement numpy functions for :class:`vector._backends.numpy_.VectorNumpy`. Currently
+        implement ``numpy.sum``.
+
+        The current implementation of ``numpy.sum`` allows the 'axis', 'dtype', and 'initial'
+        keyword arguments.
+        """
+        if func is numpy.sum:
+            if len(args) != 1:
+                raise ValueError("numpy.sum expects a single positional argument")
+
+            axis = kwargs["axis"] if "axis" in kwargs else None
+            dtype = kwargs["dtype"] if "dtype" in kwargs else None
+            initial = kwargs["initial"] if "initial" in kwargs else 0.0
+
+            is_xy = args[0]._azimuthal_type == AzimuthalNumpyXY
+
+            if axis is None:
+                sum_val = (
+                    numpy.sum(args[0].x, dtype=dtype)
+                    + numpy.sum(args[0].y, dtype=dtype)
+                    if is_xy
+                    else numpy.sum(args[0].rho, dtype=dtype)
+                    + numpy.sum(args[0].phi, dtype=dtype)
+                )
+            elif axis == 0:
+                sum_val = (
+                    numpy.array(
+                        [numpy.sum(args[0].x), numpy.sum(args[0].y)], dtype=dtype
+                    )
+                    if is_xy
+                    else numpy.array(
+                        [numpy.sum(args[0].rho), numpy.sum(args[0].phi)], dtype=dtype
+                    )
+                )
+            elif axis == 1:
+                sum_val = args[0].x + args[0].y if is_xy else args[0].rho + args[0].phi
+                sum_val = sum_val.astype(dtype)
+            return initial + sum_val
+        else:
+            return NotImplemented
 
     @property
     def azimuthal(self) -> AzimuthalNumpy:
