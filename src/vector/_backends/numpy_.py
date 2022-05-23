@@ -717,26 +717,29 @@ class VectorNumpy2D(VectorNumpy, Planar, Vector2D, FloatArray):  # type: ignore[
 
             if axis is None:
                 sum_val = (
-                    numpy.sum(args[0].x, dtype=dtype)
-                    + numpy.sum(args[0].y, dtype=dtype)
+                    numpy.sum(args[0].x) + numpy.sum(args[0].y)
                     if is_xy
-                    else numpy.sum(args[0].rho, dtype=dtype)
-                    + numpy.sum(args[0].phi, dtype=dtype)
+                    else numpy.sum(args[0].rho) + numpy.sum(args[0].phi)
                 )
             elif axis == 0:
                 sum_val = (
                     numpy.array(
-                        [numpy.sum(args[0].x), numpy.sum(args[0].y)], dtype=dtype
+                        [numpy.sum(args[0].x), numpy.sum(args[0].y)],
                     )
                     if is_xy
                     else numpy.array(
-                        [numpy.sum(args[0].rho), numpy.sum(args[0].phi)], dtype=dtype
+                        [numpy.sum(args[0].rho), numpy.sum(args[0].phi)],
                     )
                 )
             elif axis == 1:
                 sum_val = args[0].x + args[0].y if is_xy else args[0].rho + args[0].phi
+
+            sum_val += initial
+            if isinstance(sum_val, numpy.ndarray):
                 sum_val = sum_val.astype(dtype)
-            return initial + sum_val
+            else:
+                sum_val = dtype(sum_val)
+            return sum_val
         else:
             return NotImplemented
 
