@@ -423,7 +423,6 @@ class VectorProtocol:
     def sum(
         self,
         axis: typing.Optional[int] = None,
-        dtype: typing.Any = None,
         initial: ScalarCollection = 0,
     ) -> typing.Any:
         """
@@ -1947,33 +1946,11 @@ class Planar(VectorProtocolPlanar):
     def sum(
         self,
         axis: typing.Optional[int] = None,
-        dtype: typing.Any = None,
         initial: ScalarCollection = 0,
     ) -> typing.Any:
-        import numpy
+        from vector._compute.planar import sum
 
-        names = _coordinate_class_to_names[_aztype(self)]
-
-        if axis is None:
-            sum_val = numpy.sum(getattr(self, names[0])) + numpy.sum(
-                getattr(self, names[1])
-            )
-        elif axis == 0:
-            sum_val = numpy.array(
-                [
-                    numpy.sum(getattr(self, names[0])),
-                    numpy.sum(getattr(self, names[1])),
-                ]
-            )
-        elif axis == 1:
-            sum_val = getattr(self, names[0]) + getattr(self, names[1])
-
-        sum_val += initial
-        if isinstance(sum_val, numpy.ndarray):
-            sum_val = sum_val.astype(dtype)
-        elif dtype is not None:
-            sum_val = dtype(sum_val)
-        return sum_val
+        return sum.dispatch(axis, initial, self)
 
 
 class Spatial(Planar, VectorProtocolSpatial):
@@ -2210,7 +2187,6 @@ class Spatial(Planar, VectorProtocolSpatial):
     def sum(
         self,
         axis: typing.Optional[int] = None,
-        dtype: typing.Any = None,
         initial: ScalarCollection = 0,
     ) -> typing.Any:
         import numpy
@@ -2232,10 +2208,6 @@ class Spatial(Planar, VectorProtocolSpatial):
             sum_val = planar_sum + getattr(self, names[0])
 
         sum_val += initial
-        if isinstance(sum_val, numpy.ndarray):
-            sum_val = sum_val.astype(dtype)
-        elif dtype is not None:
-            sum_val = dtype(sum_val)
         return sum_val
 
 
@@ -2502,7 +2474,6 @@ class Lorentz(Spatial, VectorProtocolLorentz):
     def sum(
         self,
         axis: typing.Optional[int] = None,
-        dtype: typing.Any = None,
         initial: ScalarCollection = 0,
     ) -> typing.Any:
         import numpy
@@ -2525,10 +2496,6 @@ class Lorentz(Spatial, VectorProtocolLorentz):
             sum_val = three_d_sum + getattr(self, names[0])
 
         sum_val += initial
-        if isinstance(sum_val, numpy.ndarray):
-            sum_val = sum_val.astype(dtype)
-        elif dtype is not None:
-            sum_val = dtype(sum_val)
         return sum_val
 
 

@@ -720,7 +720,12 @@ class VectorNumpy2D(VectorNumpy, Planar, Vector2D, FloatArray):  # type: ignore[
         Wraps the raw result of a compute function as an array of scalars or an
         array of vectors.
         """
-        if returns == [float] or returns == [bool]:
+        if (
+            returns == [float]
+            or returns == [bool]
+            or returns[0] == float
+            or (len(returns) == 2 and returns[1] == numpy.ndarray)
+        ):
             return result
 
         elif (

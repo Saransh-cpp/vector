@@ -36,6 +36,7 @@ import vector._compute.planar.rho2  # noqa: F401
 import vector._compute.planar.rotateZ  # noqa: F401
 import vector._compute.planar.scale  # noqa: F401
 import vector._compute.planar.subtract  # noqa: F401
+import vector._compute.planar.sum  # noqa: F401
 import vector._compute.planar.transform2D  # noqa: F401
 import vector._compute.planar.unit  # noqa: F401
 import vector._compute.planar.x  # noqa: F401
