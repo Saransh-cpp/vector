@@ -8,7 +8,7 @@ import typing
 """
 .. code-block:: python
 
-    Spatial.isclose(self, other, rtol=..., atol=..., equal_nan=...)
+    Spatial.sum(self, axis=..., dtype=..., initial=...)
 """
 
 import numpy

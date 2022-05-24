@@ -48,6 +48,7 @@ import vector._compute.lorentz.not_equal  # noqa: F401
 import vector._compute.lorentz.rapidity  # noqa: F401
 import vector._compute.lorentz.scale  # noqa: F401
 import vector._compute.lorentz.subtract  # noqa: F401
+import vector._compute.lorentz.sum  # noqa: F401
 import vector._compute.lorentz.t  # noqa: F401
 import vector._compute.lorentz.t2  # noqa: F401
 import vector._compute.lorentz.tau  # noqa: F401

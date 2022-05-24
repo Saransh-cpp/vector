@@ -2459,27 +2459,9 @@ class Lorentz(Spatial, VectorProtocolLorentz):
         axis: typing.Optional[int] = None,
         initial: ScalarCollection = 0,
     ) -> typing.Any:
-        import numpy
+        from vector._compute.lorentz import sum
 
-        three_d_sum = self.to_Vector2D().sum()
-        names = _coordinate_class_to_names[_ttype(self)]
-
-        if axis is None:
-            sum_val = three_d_sum + numpy.sum(getattr(self, names[0]))
-        elif axis == 0:
-            sum_val = numpy.array(
-                [
-                    three_d_sum[0],
-                    three_d_sum[1],
-                    three_d_sum[2],
-                    numpy.sum(getattr(self, names[0])),
-                ]
-            )
-        elif axis == 1:
-            sum_val = three_d_sum + getattr(self, names[0])
-
-        sum_val += initial
-        return sum_val
+        return sum.dispatch(axis, initial, self)
 
 
 class Momentum:
