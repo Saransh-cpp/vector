@@ -2189,26 +2189,9 @@ class Spatial(Planar, VectorProtocolSpatial):
         axis: typing.Optional[int] = None,
         initial: ScalarCollection = 0,
     ) -> typing.Any:
-        import numpy
+        from vector._compute.spatial import sum
 
-        planar_sum = self.to_Vector2D().sum()
-        names = _coordinate_class_to_names[_ltype(self)]
-
-        if axis is None:
-            sum_val = planar_sum + numpy.sum(getattr(self, names[0]))
-        elif axis == 0:
-            sum_val = numpy.array(
-                [
-                    planar_sum[0],
-                    planar_sum[1],
-                    numpy.sum(getattr(self, names[0])),
-                ]
-            )
-        elif axis == 1:
-            sum_val = planar_sum + getattr(self, names[0])
-
-        sum_val += initial
-        return sum_val
+        return sum.dispatch(axis, initial, self)
 
 
 class Lorentz(Spatial, VectorProtocolLorentz):

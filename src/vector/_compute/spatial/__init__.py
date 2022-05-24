@@ -46,6 +46,7 @@ import vector._compute.spatial.rotateX  # noqa: F401
 import vector._compute.spatial.rotateY  # noqa: F401
 import vector._compute.spatial.scale  # noqa: F401
 import vector._compute.spatial.subtract  # noqa: F401
+import vector._compute.spatial.sum  # noqa: F401
 import vector._compute.spatial.theta  # noqa: F401
 import vector._compute.spatial.transform3D  # noqa: F401
 import vector._compute.spatial.unit  # noqa: F401
