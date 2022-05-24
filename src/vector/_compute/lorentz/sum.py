@@ -9,7 +9,7 @@ import typing
 .. code-block:: python
 
     @property
-    Lorentz.t(self)
+    Lorentz.sum(self, axis=..., dtype=..., initial=...)
 """
 
 import numpy
@@ -37,6 +37,8 @@ def ret_sum(lib, axis, az1, az2, l1, t1):
         sum_val = lib.array([lib.sum(az1), lib.sum(az2), lib.sum(l1), lib.sum(t1)])
     elif axis == 1:
         sum_val = az1 + az2 + l1 + t1
+    else:
+        raise ValueError("axis must be 0, 1, or None")
 
     return sum_val
 

@@ -24,14 +24,6 @@ from vector._methods import (
 )
 
 
-def xy(lib, axis, initial, x, y):
-    return ret_sum(lib, axis, x, y) + initial
-
-
-def rhophi(lib, axis, initial, rho, phi):
-    return ret_sum(lib, axis, rho, phi) + initial
-
-
 def ret_sum(lib, axis, az1, az2):
     if axis is None:
         sum_val = lib.sum(az1) + lib.sum(az2)
@@ -45,7 +37,18 @@ def ret_sum(lib, axis, az1, az2):
         )
     elif axis == 1:
         sum_val = az1 + az2
+    else:
+        raise ValueError("axis must be 0, 1, or None")
+
     return sum_val
+
+
+def xy(lib, axis, initial, x, y):
+    return ret_sum(lib, axis, x, y) + initial
+
+
+def rhophi(lib, axis, initial, rho, phi):
+    return ret_sum(lib, axis, rho, phi) + initial
 
 
 dispatch_map = {
