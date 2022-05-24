@@ -89,7 +89,9 @@ def dispatch(
     with numpy.errstate(all="ignore"):
         return v._wrap_result(
             _flavor_of(v),
-            function(v.lib, *v.azimuthal.elements, *v.longitudinal.elements),
+            function(
+                v.lib, axis, initial, *v.azimuthal.elements, *v.longitudinal.elements
+            ),
             returns,
             1,
         )

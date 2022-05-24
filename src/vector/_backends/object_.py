@@ -492,7 +492,12 @@ class VectorObject2D(VectorObject, Planar, Vector2D):
 
         Wraps the raw result of a compute function as a scalar or a vector.
         """
-        if returns == [float] or returns == [bool]:
+        if (
+            returns == [float]
+            or returns == [bool]
+            or returns[0] == float
+            or (len(returns) == 2 and returns[1] == numpy.ndarray)
+        ):
             return result
 
         elif (
@@ -744,7 +749,12 @@ class VectorObject3D(VectorObject, Spatial, Vector3D):
 
         Wraps the raw result of a compute function as a scalar or a vector.
         """
-        if returns == [float] or returns == [bool]:
+        if (
+            returns == [float]
+            or returns == [bool]
+            or returns[0] == float
+            or (len(returns) == 2 and returns[1] == numpy.ndarray)
+        ):
             return result
 
         elif (
@@ -1218,7 +1228,12 @@ class VectorObject4D(VectorObject, Lorentz, Vector4D):
 
         Wraps the raw result of a compute function as a scalar or a vector.
         """
-        if returns == [float] or returns == [bool]:
+        if (
+            returns == [float]
+            or returns == [bool]
+            or returns[0] == float
+            or (len(returns) == 2 and returns[1] == numpy.ndarray)
+        ):
             return result
 
         elif (

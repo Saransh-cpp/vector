@@ -136,6 +136,8 @@ def dispatch(
             _flavor_of(v),
             function(
                 v.lib,
+                axis,
+                initial,
                 *v.azimuthal.elements,
                 *v.longitudinal.elements,
                 *v.temporal.elements
