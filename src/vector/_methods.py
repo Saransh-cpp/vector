@@ -171,9 +171,7 @@ class VectorProtocol:
     GenericClass: typing.Type["VectorProtocol"]
 
     def to_Vector2D(self) -> "VectorProtocolPlanar":
-        """
-        Projects this vector/these vectors onto azimuthal coordinates only.
-        """
+        """Projects this vector/these vectors onto azimuthal coordinates only."""
         raise AssertionError
 
     def to_Vector3D(self) -> "VectorProtocolSpatial":
@@ -383,7 +381,7 @@ class VectorProtocol:
 
         This method is equivalent to the ``==`` operator.
 
-        Typically, you'll want to check :doc:`vector._methods.VectorProtocol.isclose`
+        Typically, you'll want to check :meth:`vector._methods.VectorProtocol.isclose`
         to allow for numerical errors.
         """
         raise AssertionError
@@ -395,7 +393,7 @@ class VectorProtocol:
 
         This method is equivalent to the ``!=`` operator.
 
-        Typically, you'll want to check :doc:`vector._methods.VectorProtocol.isclose`
+        Typically, you'll want to check :meth:`vector._methods.VectorProtocol.isclose`
         to allow for numerical errors.
         """
         raise AssertionError
@@ -445,16 +443,12 @@ class VectorProtocolPlanar(VectorProtocol):
 
     @property
     def x(self) -> ScalarCollection:
-        """
-        The Cartesian $x$ coordinate of the vector or every vector in the array.
-        """
+        """The Cartesian $x$ coordinate of the vector or every vector in the array."""
         raise AssertionError
 
     @property
     def y(self) -> ScalarCollection:
-        """
-        The Cartesian $y$ coordinate of the vector or every vector in the array.
-        """
+        """The Cartesian $y$ coordinate of the vector or every vector in the array."""
         raise AssertionError
 
     @property
@@ -469,9 +463,7 @@ class VectorProtocolPlanar(VectorProtocol):
 
     @property
     def rho2(self) -> ScalarCollection:
-        r"""
-        The polar $\rho$ coordinate squared of the vector or every vector in the array.
-        """
+        r"""The polar $\rho$ coordinate squared of the vector or every vector in the array."""
         raise AssertionError
 
     @property
@@ -498,9 +490,7 @@ class VectorProtocolPlanar(VectorProtocol):
         raise AssertionError
 
     def deltaphi(self, other: VectorProtocol) -> ScalarCollection:
-        r"""
-        Signed difference in $\phi$ of ``self`` minus ``other`` (in radians).
-        """
+        r"""Signed difference in $\phi$ of ``self`` minus ``other`` (in radians)."""
         raise AssertionError
 
     def rotateZ(self: SameVectorType, angle: ScalarCollection) -> SameVectorType:
@@ -536,7 +526,7 @@ class VectorProtocolPlanar(VectorProtocol):
         (i.e. not "antiparallel"; dot product is nearly ``abs(self) * abs(other)``).
 
         The ``tolerance`` is measured in units of $\cos(\Delta\alpha)$ where $\Delta\alpha$
-        is ``self.deltaangle(other)`.
+        is ``self.deltaangle(other)``.
         """
         raise AssertionError
 
@@ -548,7 +538,7 @@ class VectorProtocolPlanar(VectorProtocol):
         (i.e. dot product is nearly ``-abs(self) * abs(other)``).
 
         The ``tolerance`` is measured in units of $\cos(\Delta\alpha)$ where $\Delta\alpha$
-        is ``self.deltaangle(other)`.
+        is ``self.deltaangle(other)``.
         """
         raise AssertionError
 
@@ -560,7 +550,7 @@ class VectorProtocolPlanar(VectorProtocol):
         (i.e. dot product is nearly ``0``).
 
         The ``tolerance`` is measured in units of $\cos(\Delta\alpha)$ where $\Delta\alpha$
-        is ``self.deltaangle(other)`.
+        is ``self.deltaangle(other)``.
         """
         raise AssertionError
 
@@ -576,9 +566,7 @@ class VectorProtocolSpatial(VectorProtocolPlanar):
 
     @property
     def z(self) -> ScalarCollection:
-        """
-        The Cartesian $z$ coordinate of the vector or every vector in the array.
-        """
+        """The Cartesian $z$ coordinate of the vector or every vector in the array."""
         raise AssertionError
 
     @property
@@ -615,16 +603,12 @@ class VectorProtocolSpatial(VectorProtocolPlanar):
 
     @property
     def mag(self) -> ScalarCollection:
-        """
-        The magnitude of the vector(s) in 3D (not including any temporal parts).
-        """
+        """The magnitude of the vector(s) in 3D (not including any temporal parts)."""
         raise AssertionError
 
     @property
     def mag2(self) -> ScalarCollection:
-        """
-        The magnitude-squared of the vector(s) in 3D (not including any temporal parts).
-        """
+        """The magnitude-squared of the vector(s) in 3D (not including any temporal parts)."""
         raise AssertionError
 
     def scale3D(self: SameVectorType, factor: ScalarCollection) -> SameVectorType:
@@ -658,15 +642,13 @@ class VectorProtocolSpatial(VectorProtocolPlanar):
         raise AssertionError
 
     def deltaeta(self, other: "VectorProtocol") -> ScalarCollection:
-        r"""
-        Signed difference in $\eta$ of ``self`` minus ``other``.
-        """
+        r"""Signed difference in $\eta$ of ``self`` minus ``other``."""
         raise AssertionError
 
     def deltaR(self, other: "VectorProtocol") -> ScalarCollection:
         r"""
-        Sum in quadrature of :doc:`vector._methods.VectorProtocolPlanar.deltaphi`
-        and :doc:`vector._methods.VectorProtocolSpatial.deltaeta`:
+        Sum in quadrature of :meth:`vector._methods.VectorProtocolPlanar.deltaphi`
+        and :meth:`vector._methods.VectorProtocolSpatial.deltaeta`:
 
         $$\Delta R = \sqrt{\Delta\phi^2 + \Delta\eta^2}$$
         """
@@ -675,8 +657,8 @@ class VectorProtocolSpatial(VectorProtocolPlanar):
     def deltaR2(self, other: "VectorProtocol") -> ScalarCollection:
         r"""
         Square of the sum in quadrature of
-        :doc:`vector._methods.VectorProtocolPlanar.deltaphi` and
-        :doc:`vector._methods.VectorProtocolSpatial.deltaeta`:
+        :meth:`vector._methods.VectorProtocolPlanar.deltaphi` and
+        :meth:`vector._methods.VectorProtocolSpatial.deltaeta`:
 
         $$\Delta R^2 = \Delta\phi^2 + \Delta\eta^2$$
         """
@@ -731,7 +713,7 @@ class VectorProtocolSpatial(VectorProtocolPlanar):
           are proper Euler angles
         - ``"zxz"``, ``"xyx"``, ``"yzy"``, ``"zyz"``, ``"xzx"``, and ``"yxy"``
           are Tait-Bryan angles (see
-          :doc:`vector._methods.VectorProtocolSpatial.rotate_nautical`)
+          :meth:`vector._methods.VectorProtocolSpatial.rotate_nautical`)
 
         The names ``phi``, ``theta``, and ``psi`` agree with
         `Wikipedia's terminology <https://en.wikipedia.org/wiki/Euler_angles>`_,
@@ -753,8 +735,8 @@ class VectorProtocolSpatial(VectorProtocolPlanar):
         """
         Rotates the vector(s) by three given angles: ``yaw``, ``pitch``, and ``roll``
         (in radians). These are Tait-Bryan angles often used for boats and planes
-        (see `this lesson <http://planning.cs.uiuc.edu/node102.html>`_ and
-        `this lesson <http://www.chrobotics.com/library/understanding-euler-angles>`_).
+        (see `this lesson <http://planning.cs.uiuc.edu/node102.html>`__ and
+        `this lesson <http://www.chrobotics.com/library/understanding-euler-angles>`__).
 
         This function is entirely equivalent to
 
@@ -912,8 +894,8 @@ class VectorProtocolLorentz(VectorProtocolSpatial):
 
     def deltaRapidityPhi(self, other: "VectorProtocol") -> ScalarCollection:
         r"""
-        Sum in quadrature of :doc:`vector._methods.VectorProtocolPlanar.deltaphi`
-        and the difference in :doc:`vector._methods.VectorProtocolLorentz.rapidity`
+        Sum in quadrature of :meth:`vector._methods.VectorProtocolPlanar.deltaphi`
+        and the difference in :attr:`vector._methods.VectorProtocolLorentz.rapidity`
         of the two vectors:
 
         $$\Delta R_{\mbox{rapidity}} = \sqrt{\Delta\phi^2 + \Delta \mbox{rapidity}^2}$$
@@ -923,24 +905,20 @@ class VectorProtocolLorentz(VectorProtocolSpatial):
     def deltaRapidityPhi2(self, other: "VectorProtocol") -> ScalarCollection:
         r"""
         Square of the sum in quadrature of
-        :doc:`vector._methods.VectorProtocolPlanar.deltaphi` and the difference in
-        :doc:`vector._methods.VectorProtocolLorentz.rapidity` of the two vectors:
+        :meth:`vector._methods.VectorProtocolPlanar.deltaphi` and the difference in
+        :attr:`vector._methods.VectorProtocolLorentz.rapidity` of the two vectors:
 
         $$\Delta R_{\mbox{rapidity}} = \Delta\phi^2 + \Delta \mbox{rapidity}^2$$
         """
         raise AssertionError
 
     def scale4D(self: SameVectorType, factor: ScalarCollection) -> SameVectorType:
-        """
-        Same as ``scale``.
-        """
+        """Same as ``scale``."""
         raise AssertionError
 
     @property
     def neg4D(self: SameVectorType) -> SameVectorType:
-        """
-        Same as multiplying by -1.
-        """
+        """Same as multiplying by -1."""
         raise AssertionError
 
     def boost_p4(self: SameVectorType, p4: "VectorProtocolLorentz") -> SameVectorType:
@@ -954,7 +932,7 @@ class VectorProtocolLorentz(VectorProtocolSpatial):
 
             boost_beta3(p4.to_beta3())
 
-        where :doc:`vector._methods.VectorProtocolLorentz.to_beta3` converts a
+        where :meth:`vector._methods.VectorProtocolLorentz.to_beta3` converts a
         4D Lorentz vector into a 3D velocity (in which lightlike velocities have
         ``mag == 1``).
 
@@ -963,7 +941,7 @@ class VectorProtocolLorentz(VectorProtocolSpatial):
         since that negates the time component of ``v`` as well.
 
         To boost to the center-of-mass frame of a vector ``v``, use
-        :doc:`vector._methods.VectorProtocolLorentz.boostCM_of_p4`. For instance,
+        :meth:`vector._methods.VectorProtocolLorentz.boostCM_of_p4`. For instance,
         ``v.boostCM_of_p4(v)`` is guaranteed to have spatial components close to zero
         and a temporal component close to ``v.tau``.
         """
@@ -981,7 +959,7 @@ class VectorProtocolLorentz(VectorProtocolSpatial):
         since that negates the time component of ``v`` as well. On the other hand,
         ``v.boost_beta3(-(v.to_beta3()))`` *would* boost to the center-of-mass frame.
 
-        However, there's a function for that: :doc:`vector._methods.VectorProtocolLorentz.boostCM_of_beta3`
+        However, there's a function for that: :meth:`vector._methods.VectorProtocolLorentz.boostCM_of_beta3`
         is explicit about boosting to a center-of-mass (CM) frame and it handles the
         negative sign for you: ``v.boostCM_of_beta3(v.to_beta3())`` is guaranteed to
         have spatial components close to zero and a temporal component close to ``v.tau``.
@@ -993,18 +971,18 @@ class VectorProtocolLorentz(VectorProtocolSpatial):
         Boosts the vector or array of vectors using the 3D or 4D ``booster``.
 
         If ``booster`` is 3D, it is interpreted as a velocity (in which lightlike
-        velocities have ``mag == 1``) and :doc:`vector._methods.VectorProtocolLorentz.boost_beta3`
+        velocities have ``mag == 1``) and :meth:`vector._methods.VectorProtocolLorentz.boost_beta3`
         is called.
 
         If ``booster`` is 4D, it is interpreted as a Lorentz vector and
-        :doc:`vector._methods.VectorProtocolLorentz.boost_p4` is called.
+        :meth:`vector._methods.VectorProtocolLorentz.boost_p4` is called.
 
         Note that ``v.boost(v)`` does not boost into the center-of-mass (CM) frame
         of ``v``; it boosts *away* from its CM frame. Neither does ``v.boost(-v)``,
         since that negates the time component of ``v`` as well.
 
         To boost to the center-of-mass frame of a vector ``v``, use
-        :doc:`vector._methods.VectorProtocolLorentz.boostCM_of`. For instance,
+        :meth:`vector._methods.VectorProtocolLorentz.boostCM_of`. For instance,
         ``v.boostCM_of(v)`` is guaranteed to have spatial components close to zero
         and a temporal component close to ``v.tau``.
         """
@@ -1046,11 +1024,11 @@ class VectorProtocolLorentz(VectorProtocolSpatial):
         the 3D or 4D ``booster``.
 
         If ``booster`` is 3D, it is interpreted as a velocity (in which lightlike
-        velocities have ``mag == 1``) and :doc:`vector._methods.VectorProtocolLorentz.boostCM_of_beta3`
+        velocities have ``mag == 1``) and :meth:`vector._methods.VectorProtocolLorentz.boostCM_of_beta3`
         is called.
 
         If ``booster`` is 4D, it is interpreted as a Lorentz vector and
-        :doc:`vector._methods.VectorProtocolLorentz.boostCM_of_p4` is called.
+        :meth:`vector._methods.VectorProtocolLorentz.boostCM_of_p4` is called.
 
         Note that ``v.boostCM_of(v)`` is guaranteed to have spatial components close
         to zero and a temporal component close to ``v.tau``.
@@ -1139,11 +1117,11 @@ class VectorProtocolLorentz(VectorProtocolSpatial):
 
         The ``tolerance`` is in units of ``t`` and ``mag``. Note that
 
-        - the default ``tolerance`` for :doc:`vector._methods.VectorProtocolLorentz.is_timelike`
+        - the default ``tolerance`` for :meth:`vector._methods.VectorProtocolLorentz.is_timelike`
           is ``0``
-        - the default ``tolerance`` for :doc:`vector._methods.VectorProtocolLorentz.is_spacelike`
+        - the default ``tolerance`` for :meth:`vector._methods.VectorProtocolLorentz.is_spacelike`
           is ``0``
-        - the default ``tolerance`` for :doc:`vector._methods.VectorProtocolLorentz.is_lightlike`
+        - the default ``tolerance`` for :meth:`vector._methods.VectorProtocolLorentz.is_lightlike`
           is ``1e-5``
 
         If you want to use these methods to divide space-time into non-overlapping
@@ -1158,11 +1136,11 @@ class VectorProtocolLorentz(VectorProtocolSpatial):
 
         The ``tolerance`` is in units of ``t`` and ``mag``. Note that
 
-        - the default ``tolerance`` for :doc:`vector._methods.VectorProtocolLorentz.is_timelike`
+        - the default ``tolerance`` for :meth:`vector._methods.VectorProtocolLorentz.is_timelike`
           is ``0``
-        - the default ``tolerance`` for :doc:`vector._methods.VectorProtocolLorentz.is_spacelike`
+        - the default ``tolerance`` for :meth:`vector._methods.VectorProtocolLorentz.is_spacelike`
           is ``0``
-        - the default ``tolerance`` for :doc:`vector._methods.VectorProtocolLorentz.is_lightlike`
+        - the default ``tolerance`` for :meth:`vector._methods.VectorProtocolLorentz.is_lightlike`
           is ``1e-5``
 
         If you want to use these methods to divide space-time into non-overlapping
@@ -1177,11 +1155,11 @@ class VectorProtocolLorentz(VectorProtocolSpatial):
 
         The ``tolerance`` is in units of ``t`` and ``mag``. Note that
 
-        - the default ``tolerance`` for :doc:`vector._methods.VectorProtocolLorentz.is_timelike`
+        - the default ``tolerance`` for :meth:`vector._methods.VectorProtocolLorentz.is_timelike`
           is ``0``
-        - the default ``tolerance`` for :doc:`vector._methods.VectorProtocolLorentz.is_spacelike`
+        - the default ``tolerance`` for :meth:`vector._methods.VectorProtocolLorentz.is_spacelike`
           is ``0``
-        - the default ``tolerance`` for :doc:`vector._methods.VectorProtocolLorentz.is_lightlike`
+        - the default ``tolerance`` for :meth:`vector._methods.VectorProtocolLorentz.is_lightlike`
           is ``1e-5``
 
         If you want to use these methods to divide space-time into non-overlapping
@@ -1193,146 +1171,106 @@ class VectorProtocolLorentz(VectorProtocolSpatial):
 class MomentumProtocolPlanar(VectorProtocolPlanar):
     @property
     def px(self) -> ScalarCollection:
-        """
-        Momentum-synonym for :doc:`vector._methods.VectorProtocolPlanar.x`.
-        """
+        """Momentum-synonym for :attr:`vector._methods.VectorProtocolPlanar.x`."""
         raise AssertionError
 
     @property
     def py(self) -> ScalarCollection:
-        """
-        Momentum-synonym for :doc:`vector._methods.VectorProtocolPlanar.y`.
-        """
+        """Momentum-synonym for :attr:`vector._methods.VectorProtocolPlanar.y`."""
         raise AssertionError
 
     @property
     def pt(self) -> ScalarCollection:
-        """
-        Momentum-synonym for :doc:`vector._methods.VectorProtocolPlanar.rho`.
-        """
+        """Momentum-synonym for :attr:`vector._methods.VectorProtocolPlanar.rho`."""
         raise AssertionError
 
     @property
     def pt2(self) -> ScalarCollection:
-        """
-        Momentum-synonym for :doc:`vector._methods.VectorProtocolPlanar.rho2`.
-        """
+        """Momentum-synonym for :attr:`vector._methods.VectorProtocolPlanar.rho2`."""
         raise AssertionError
 
 
 class MomentumProtocolSpatial(VectorProtocolSpatial, MomentumProtocolPlanar):
     @property
     def pz(self) -> ScalarCollection:
-        """
-        Momentum-synonym for :doc:`vector._methods.VectorProtocolSpatial.z`.
-        """
+        """Momentum-synonym for :attr:`vector._methods.VectorProtocolSpatial.z`."""
         raise AssertionError
 
     @property
     def pseudorapidity(self) -> ScalarCollection:
-        """
-        Momentum-synonym for :doc:`vector._methods.VectorProtocolSpatial.eta`.
-        """
+        """Momentum-synonym for :attr:`vector._methods.VectorProtocolSpatial.eta`."""
         raise AssertionError
 
     @property
     def p(self) -> ScalarCollection:
-        """
-        Momentum-synonym for :doc:`vector._methods.VectorProtocolSpatial.mag`.
-        """
+        """Momentum-synonym for :attr:`vector._methods.VectorProtocolSpatial.mag`."""
         raise AssertionError
 
     @property
     def p2(self) -> ScalarCollection:
-        """
-        Momentum-synonym for :doc:`vector._methods.VectorProtocolSpatial.mag2`.
-        """
+        """Momentum-synonym for :attr:`vector._methods.VectorProtocolSpatial.mag2`."""
         raise AssertionError
 
 
 class MomentumProtocolLorentz(VectorProtocolLorentz, MomentumProtocolSpatial):
     @property
     def E(self) -> ScalarCollection:
-        """
-        Momentum-synonym for :doc:`vector._methods.VectorProtocolLorentz.t`.
-        """
+        """Momentum-synonyor :attr:`vector._methods.VectorProtocolLorentz.t`."""
         raise AssertionError
 
     @property
     def e(self) -> ScalarCollection:
-        """
-        Momentum-synonym for :doc:`vector._methods.VectorProtocolLorentz.t`.
-        """
+        """Momentum-synonym for :attr:`vector._methods.VectorProtocolLorentz.t`."""
         raise AssertionError
 
     @property
     def energy(self) -> ScalarCollection:
-        """
-        Momentum-synonym for :doc:`vector._methods.VectorProtocolLorentz.t`.
-        """
+        """Momentum-synonym for :attr:`vector._methods.VectorProtocolLorentz.t`."""
         raise AssertionError
 
     @property
     def E2(self) -> ScalarCollection:
-        """
-        Momentum-synonym for :doc:`vector._methods.VectorProtocolLorentz.t2`.
-        """
+        """Momentum-synonym for :attr:`vector._methods.VectorProtocolLorent2`."""
         raise AssertionError
 
     @property
     def e2(self) -> ScalarCollection:
-        """
-        Momentum-synonym for :doc:`vector._methods.VectorProtocolLorentz.t2`.
-        """
+        """Momentum-synonym for :attr:`vector._methods.VectorProtocolLorentz.t2`."""
         raise AssertionError
 
     @property
     def energy2(self) -> ScalarCollection:
-        """
-        Momentum-synonym for :doc:`vector._methods.VectorProtocolLorentz.t2`.
-        """
+        """Momentum-synonym for :attr:`vector._methods.VectorProtocolLorentz.t2`."""
         raise AssertionError
 
     @property
     def M(self) -> ScalarCollection:
-        """
-        Momentum-synonym for :doc:`vector._methods.VectorProtocolLorentz.tau`.
-        """
+        """Momentum-synonym for :attr:`vector._methods.VectorProtocolLorentz.tau`."""
         raise AssertionError
 
     @property
     def m(self) -> ScalarCollection:
-        """
-        Momentum-synonym for :doc:`vector._methods.VectorProtocolLorentz.tau`.
-        """
+        """Momentum-synonym for :attr:`vector._methods.VectorProtocolLorentz.tau`."""
         raise AssertionError
 
     @property
     def mass(self) -> ScalarCollection:
-        """
-        Momentum-synonym for :doc:`vector._methods.VectorProtocolLorentz.tau`.
-        """
+        """Momentum-synonym for :attr:`vector._methods.VectorProtocolLorentz.tau`."""
         raise AssertionError
 
     @property
     def M2(self) -> ScalarCollection:
-        """
-        Momentum-synonym for :doc:`vector._methods.VectorProtocolLorentz.tau2`.
-        """
+        """Momentum-synonym for :attr:`vector._methods.VectorProtocolLorentz.tau2`."""
         raise AssertionError
 
     @property
     def m2(self) -> ScalarCollection:
-        """
-        Momentum-synonym for :doc:`vector._methods.VectorProtocolLorentz.tau2`.
-        """
+        """Momentum-synonym for :attr:`vector._methods.VectorProtocolLorentz.tau2`."""
         raise AssertionError
 
     @property
     def mass2(self) -> ScalarCollection:
-        """
-        Momentum-synonym for :doc:`vector._methods.VectorProtocolLorentz.tau2`.
-        """
+        """Momentum-synonym for :attr:`vector._methods.VectorProtocolLorentz.tau2`."""
         raise AssertionError
 
     @property
@@ -1353,9 +1291,7 @@ class MomentumProtocolLorentz(VectorProtocolLorentz, MomentumProtocolSpatial):
 
     @property
     def transverse_energy(self) -> ScalarCollection:
-        """
-        Synonym for :doc:`vector._methods.MomentumProtocolLorentz.Et`.
-        """
+        """Synonym for :attr:`vector._methods.MomentumProtocolLorentz.Et`."""
         raise AssertionError
 
     @property
@@ -1376,9 +1312,7 @@ class MomentumProtocolLorentz(VectorProtocolLorentz, MomentumProtocolSpatial):
 
     @property
     def transverse_energy2(self) -> ScalarCollection:
-        """
-        Synonym for :doc:`vector._methods.MomentumProtocolLorentz.Et2`.
-        """
+        """Synonym for :attr:`vector._methods.MomentumProtocolLorentz.Et2`."""
         raise AssertionError
 
     @property
@@ -1399,9 +1333,7 @@ class MomentumProtocolLorentz(VectorProtocolLorentz, MomentumProtocolSpatial):
 
     @property
     def transverse_mass(self) -> ScalarCollection:
-        """
-        Synonym for :doc:`vector._methods.MomentumProtocolLorentz.Mt`.
-        """
+        """Synonym for :attr:`vector._methods.MomentumProtocolLorentz.Mt`."""
         raise AssertionError
 
     @property
@@ -1422,9 +1354,7 @@ class MomentumProtocolLorentz(VectorProtocolLorentz, MomentumProtocolSpatial):
 
     @property
     def transverse_mass2(self) -> ScalarCollection:
-        """
-        Synonym for :doc:`vector._methods.MomentumProtocolLorentz.Mt2`.
-        """
+        """Synonym for :attr:`vector._methods.MomentumProtocolLorentz.Mt2`."""
         raise AssertionError
 
 
@@ -2619,9 +2549,7 @@ class LorentzMomentum(SpatialMomentum, MomentumProtocolLorentz):
 
 
 def dim(v: VectorProtocol) -> int:
-    """
-    Returns the number of dimensions in a vector: 2, 3, or 4.
-    """
+    """Returns the number of dimensions in a vector: 2, 3, or 4."""
     if isinstance(v, Vector2D):
         return 2
     elif isinstance(v, Vector3D):
@@ -2777,7 +2705,7 @@ def _lib_of(*objects: VectorProtocol) -> Module:  # NumPy-like module
     Determines the ``lib`` of a vector or set of vectors, complaining
     if they're incompatible.
     """
-    lib = None
+    lib: typing.Optional[typing.Any] = None
     for obj in objects:
         if isinstance(obj, Vector):
             if lib is None:
@@ -2834,7 +2762,7 @@ def _handler_of(*objects: VectorProtocol) -> VectorProtocol:
     objects to NumPy arrays to Awkward Arrays whenever two are used in the
     same formula.
     """
-    handler = None
+    handler: typing.Optional[VectorProtocol] = None
     for obj in objects:
         if not isinstance(obj, Vector):
             continue
@@ -2855,7 +2783,7 @@ def _flavor_of(*objects: VectorProtocol) -> typing.Type[VectorProtocol]:
     from vector.backends.numpy import VectorNumpy
     from vector.backends.object import VectorObject
 
-    handler = None
+    handler: typing.Optional[VectorProtocol] = None
     is_momentum = True
     for obj in objects:
         if isinstance(obj, Vector):
