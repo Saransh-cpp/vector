@@ -172,7 +172,7 @@ def _getitem(
         elif azimuthal is not None:
             return array.ObjectClass(azimuthal=azimuthal)  # type: ignore[return-value]
         else:
-            return array.ObjectClass(*out.view(numpy.ndarray))  # type: ignore[misc, return-value]
+            return array.ObjectClass(*out.view(numpy.ndarray))  # type: ignore[return-value]
 
 
 def _array_repr(

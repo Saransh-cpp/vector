@@ -844,9 +844,9 @@ def vector_obj(
                 mass=None,
             ):
                 return MomentumObject4D(
-                    azimuthal(x, px, y, py, rho, pt, phi),
-                    longitudinal(z, pz, theta, eta),
-                    temporal(t, E, e, energy, tau, M, m, mass),
+                    azimuthal=azimuthal(x, px, y, py, rho, pt, phi),
+                    longitudinal=longitudinal(z, pz, theta, eta),
+                    temporal=temporal(t, E, e, energy, tau, M, m, mass),
                 )
 
         else:
@@ -874,9 +874,9 @@ def vector_obj(
                 mass=None,
             ):
                 return VectorObject4D(
-                    azimuthal(x, px, y, py, rho, pt, phi),
-                    longitudinal(z, pz, theta, eta),
-                    temporal(t, E, e, energy, tau, M, m, mass),
+                    azimuthal=azimuthal(x, px, y, py, rho, pt, phi),
+                    longitudinal=longitudinal(z, pz, theta, eta),
+                    temporal=temporal(t, E, e, energy, tau, M, m, mass),
                 )
 
     elif azimuthal is not None and longitudinal is not None:
@@ -905,8 +905,8 @@ def vector_obj(
                 mass=None,
             ):
                 return MomentumObject3D(
-                    azimuthal(x, px, y, py, rho, pt, phi),
-                    longitudinal(z, pz, theta, eta),
+                    azimuthal=azimuthal(x, px, y, py, rho, pt, phi),
+                    longitudinal=longitudinal(z, pz, theta, eta),
                 )
 
         else:
@@ -934,8 +934,8 @@ def vector_obj(
                 mass=None,
             ):
                 return VectorObject3D(
-                    azimuthal(x, px, y, py, rho, pt, phi),
-                    longitudinal(z, pz, theta, eta),
+                    azimuthal=azimuthal(x, px, y, py, rho, pt, phi),
+                    longitudinal=longitudinal(z, pz, theta, eta),
                 )
 
     elif azimuthal is not None:
@@ -963,7 +963,7 @@ def vector_obj(
                 m=None,
                 mass=None,
             ):
-                return MomentumObject2D(azimuthal(x, px, y, py, rho, pt, phi))
+                return MomentumObject2D(azimuthal=azimuthal(x, px, y, py, rho, pt, phi))
 
         else:
 
@@ -989,7 +989,7 @@ def vector_obj(
                 m=None,
                 mass=None,
             ):
-                return VectorObject2D(azimuthal(x, px, y, py, rho, pt, phi))
+                return VectorObject2D(azimuthal=azimuthal(x, px, y, py, rho, pt, phi))
 
     else:
         raise numba.TypingError(
@@ -1035,12 +1035,16 @@ def VectorObject2D_to_Vector3D(v):
     if issubclass(v.instance_class, Momentum):
 
         def VectorObject2D_to_Vector3D_impl(v):
-            return MomentumObject3D(v.azimuthal, LongitudinalObjectZ(0.0))
+            return MomentumObject3D(
+                azimuthal=v.azimuthal, longitudinal=LongitudinalObjectZ(0.0)
+            )
 
     else:
 
         def VectorObject2D_to_Vector3D_impl(v):
-            return VectorObject3D(v.azimuthal, LongitudinalObjectZ(0.0))
+            return VectorObject3D(
+                azimuthal=v.azimuthal, longitudinal=LongitudinalObjectZ(0.0)
+            )
 
     return VectorObject2D_to_Vector3D_impl
 
@@ -1050,15 +1054,15 @@ def VectorObject2D_to_Vector4D(v):
     if issubclass(v.instance_class, Momentum):
 
         def VectorObject2D_to_Vector4D_impl(v):
-            return MomentumObject4D(
-                v.azimuthal, LongitudinalObjectZ(0.0), TemporalObjectT(0.0)
-            )
+            return MomentumObject4D(temporal=TemporalObjectT(0.0))
 
     else:
 
         def VectorObject2D_to_Vector4D_impl(v):
             return VectorObject4D(
-                v.azimuthal, LongitudinalObjectZ(0.0), TemporalObjectT(0.0)
+                azimuthal=v.azimuthal,
+                longitudinal=LongitudinalObjectZ(0.0),
+                temporal=TemporalObjectT(0.0),
             )
 
     return VectorObject2D_to_Vector4D_impl
@@ -1069,12 +1073,12 @@ def VectorObject3D_to_Vector2D(v):
     if issubclass(v.instance_class, Momentum):
 
         def VectorObject3D_to_Vector2D_impl(v):
-            return MomentumObject2D(v.azimuthal)
+            return MomentumObject2D(azimuthal=v.azimuthal)
 
     else:
 
         def VectorObject3D_to_Vector2D_impl(v):
-            return VectorObject2D(v.azimuthal)
+            return VectorObject2D(azimuthal=v.azimuthal)
 
     return VectorObject3D_to_Vector2D_impl
 
@@ -1092,12 +1096,20 @@ def VectorObject3D_to_Vector4D(v):
     if issubclass(v.instance_class, Momentum):
 
         def VectorObject3D_to_Vector4D_impl(v):
-            return MomentumObject4D(v.azimuthal, v.longitudinal, TemporalObjectT(0.0))
+            return MomentumObject4D(
+                azimuthal=v.azimuthal,
+                longitudinal=v.longitudinal,
+                temporal=TemporalObjectT(0.0),
+            )
 
     else:
 
         def VectorObject3D_to_Vector4D_impl(v):
-            return VectorObject4D(v.azimuthal, v.longitudinal, TemporalObjectT(0.0))
+            return VectorObject4D(
+                azimuthal=v.azimuthal,
+                longitudinal=v.longitudinal,
+                temporal=TemporalObjectT(0.0),
+            )
 
     return VectorObject3D_to_Vector4D_impl
 
@@ -1107,12 +1119,12 @@ def VectorObject4D_to_Vector2D(v):
     if issubclass(v.instance_class, Momentum):
 
         def VectorObject4D_to_Vector2D_impl(v):
-            return MomentumObject2D(v.azimuthal)
+            return MomentumObject2D(azimuthal=v.azimuthal)
 
     else:
 
         def VectorObject4D_to_Vector2D_impl(v):
-            return VectorObject2D(v.azimuthal)
+            return VectorObject2D(azimuthal=v.azimuthal)
 
     return VectorObject4D_to_Vector2D_impl
 
@@ -1122,12 +1134,12 @@ def VectorObject4D_to_Vector3D(v):
     if issubclass(v.instance_class, Momentum):
 
         def VectorObject4D_to_Vector3D_impl(v):
-            return MomentumObject3D(v.azimuthal, v.longitudinal)
+            return MomentumObject3D(azimuthal=v.azimuthal, longitudinal=v.longitudinal)
 
     else:
 
         def VectorObject4D_to_Vector3D_impl(v):
-            return VectorObject3D(v.azimuthal, v.longitudinal)
+            return VectorObject3D(azimuthal=v.azimuthal, longitudinal=v.longitudinal)
 
     return VectorObject4D_to_Vector3D_impl
 
@@ -1250,12 +1262,12 @@ def add_coordinate_change(vectortype, azcoordtype, lcoordtype, tcoordtype):
             if issubclass(v.instance_class, Momentum):
 
                 def overloader_impl(v):
-                    return MomentumObject2D(azcoords(v))
+                    return MomentumObject2D(azimuthal=azcoords(v))
 
             else:
 
                 def overloader_impl(v):
-                    return VectorObject2D(azcoords(v))
+                    return VectorObject2D(azimuthal=azcoords(v))
 
         elif tcoordtype is None:
             azcoords = make_coordobject[vectortype, azcoordtype]
@@ -1264,12 +1276,16 @@ def add_coordinate_change(vectortype, azcoordtype, lcoordtype, tcoordtype):
             if issubclass(v.instance_class, Momentum):
 
                 def overloader_impl(v):
-                    return MomentumObject3D(azcoords(v), lcoords(v))
+                    return MomentumObject3D(
+                        azimuthal=azcoords(v), longitudinal=lcoords(v)
+                    )
 
             else:
 
                 def overloader_impl(v):
-                    return VectorObject3D(azcoords(v), lcoords(v))
+                    return VectorObject3D(
+                        azimuthal=azcoords(v), longitudinal=lcoords(v)
+                    )
 
         else:
             azcoords = make_coordobject[vectortype, azcoordtype]
@@ -1279,12 +1295,20 @@ def add_coordinate_change(vectortype, azcoordtype, lcoordtype, tcoordtype):
             if issubclass(v.instance_class, Momentum):
 
                 def overloader_impl(v):
-                    return MomentumObject4D(azcoords(v), lcoords(v), tcoords(v))
+                    return MomentumObject4D(
+                        azimuthal=azcoords(v),
+                        longitudinal=lcoords(v),
+                        temporal=tcoords(v),
+                    )
 
             else:
 
                 def overloader_impl(v):
-                    return VectorObject4D(azcoords(v), lcoords(v), tcoords(v))
+                    return VectorObject4D(
+                        azimuthal=azcoords(v),
+                        longitudinal=lcoords(v),
+                        temporal=tcoords(v),
+                    )
 
         return overloader_impl
 
@@ -1579,7 +1603,7 @@ def add_binary_method(vectortype, gn, methodname):
                     out1, out2 = function(
                         numpy, coord11(v1), coord12(v1), coord21(v2), coord22(v2)
                     )
-                    return instance_class(azcoords(out1, out2))
+                    return instance_class(azimuthal=azcoords(out1, out2))
 
             elif groupname == "spatial":
                 instance_class = flavor_of(v1, v2).ProjectionClass3D
@@ -1596,7 +1620,9 @@ def add_binary_method(vectortype, gn, methodname):
                         coord22(v2),
                         coord23(v2),
                     )
-                    return instance_class(azcoords(out1, out2), lcoords(out3))
+                    return instance_class(
+                        azimuthal=azcoords(out1, out2), longitudinal=lcoords(out3)
+                    )
 
             elif groupname == "lorentz":
                 instance_class = flavor_of(v1, v2).ProjectionClass4D
@@ -1617,7 +1643,9 @@ def add_binary_method(vectortype, gn, methodname):
                         coord24(v2),
                     )
                     return instance_class(
-                        azcoords(out1, out2), lcoords(out3), tcoords(out4)
+                        azimuthal=azcoords(out1, out2),
+                        longitudinal=lcoords(out3),
+                        temporal=tcoords(out4),
                     )
 
         return overloader_impl
@@ -1869,20 +1897,24 @@ def add_rotateZ(vectortype):
 
                 def overloader_impl(v, angle):
                     out1, out2 = function(numpy, angle, coord1(v), coord2(v))
-                    return instance_class(azcoords(out1, out2))
+                    return instance_class(azimuthal=azcoords(out1, out2))
 
             elif issubclass(vectortype, VectorObject3DType):
 
                 def overloader_impl(v, angle):
                     out1, out2 = function(numpy, angle, coord1(v), coord2(v))
-                    return instance_class(azcoords(out1, out2), v.longitudinal)
+                    return instance_class(
+                        azimuthal=azcoords(out1, out2), longitudinal=v.longitudinal
+                    )
 
             elif issubclass(vectortype, VectorObject4DType):
 
                 def overloader_impl(v, angle):
                     out1, out2 = function(numpy, angle, coord1(v), coord2(v))
                     return instance_class(
-                        azcoords(out1, out2), v.longitudinal, v.temporal
+                        azimuthal=azcoords(out1, out2),
+                        longitudinal=v.longitudinal,
+                        temporal=v.temporal,
                     )
 
             return overloader_impl
@@ -1921,7 +1953,7 @@ def add_transform2D(vectortype):
                     coord1(v),
                     coord2(v),
                 )
-                return instance_class(azcoords(out1, out2))
+                return instance_class(azimuthal=azcoords(out1, out2))
 
         elif issubclass(vectortype, VectorObject3DType):
 
@@ -1935,7 +1967,9 @@ def add_transform2D(vectortype):
                     coord1(v),
                     coord2(v),
                 )
-                return instance_class(azcoords(out1, out2), v.longitudinal)
+                return instance_class(
+                    azimuthal=azcoords(out1, out2), longitudinal=v.longitudinal
+                )
 
         elif issubclass(vectortype, VectorObject4DType):
 
@@ -1949,7 +1983,11 @@ def add_transform2D(vectortype):
                     coord1(v),
                     coord2(v),
                 )
-                return instance_class(azcoords(out1, out2), v.longitudinal, v.temporal)
+                return instance_class(
+                    azimuthal=azcoords(out1, out2),
+                    longitudinal=v.longitudinal,
+                    temporal=v.temporal,
+                )
 
         return overloader_impl
 
@@ -1971,7 +2009,7 @@ def VectorObject2DType_unit(v):
 
     def VectorObject2DType_unit_impl(v):
         out1, out2 = function(numpy, coord1(v), coord2(v))
-        return instance_class(azcoords(out1, out2))
+        return instance_class(azimuthal=azcoords(out1, out2))
 
     return VectorObject2DType_unit_impl
 
@@ -1991,7 +2029,9 @@ def VectorObject3DType_unit(v):
 
     def VectorObject3DType_unit_impl(v):
         out1, out2, out3 = function(numpy, coord1(v), coord2(v), coord3(v))
-        return instance_class(azcoords(out1, out2), lcoords(out3))
+        return instance_class(
+            azimuthal=azcoords(out1, out2), longitudinal=lcoords(out3)
+        )
 
     return VectorObject3DType_unit_impl
 
@@ -2017,7 +2057,11 @@ def VectorObject4DType_unit(v):
         out1, out2, out3, out4 = function(
             numpy, coord1(v), coord2(v), coord3(v), coord4(v)
         )
-        return instance_class(azcoords(out1, out2), lcoords(out3), tcoords(out4))
+        return instance_class(
+            azimuthal=azcoords(out1, out2),
+            longitudinal=lcoords(out3),
+            temporal=tcoords(out4),
+        )
 
     return VectorObject4DType_unit_impl
 
@@ -2037,7 +2081,7 @@ def VectorObject2DType_scale(v, factor):
 
         def VectorObject2DType_scale_impl(v, factor):
             out1, out2 = function(numpy, factor, coord1(v), coord2(v))
-            return instance_class(azcoords(out1, out2))
+            return instance_class(azimuthal=azcoords(out1, out2))
 
         return VectorObject2DType_scale_impl
 
@@ -2064,7 +2108,9 @@ def VectorObject3DType_scale(v, factor):
 
         def VectorObject3DType_scale_impl(v, factor):
             out1, out2, out3 = function(numpy, factor, coord1(v), coord2(v), coord3(v))
-            return instance_class(azcoords(out1, out2), lcoords(out3))
+            return instance_class(
+                azimuthal=azcoords(out1, out2), longitudinal=lcoords(out3)
+            )
 
         return VectorObject3DType_scale_impl
 
@@ -2097,7 +2143,11 @@ def VectorObject4DType_scale(v, factor):
             out1, out2, out3, out4 = function(
                 numpy, factor, coord1(v), coord2(v), coord3(v), coord4(v)
             )
-            return instance_class(azcoords(out1, out2), lcoords(out3), tcoords(out4))
+            return instance_class(
+                azimuthal=azcoords(out1, out2),
+                longitudinal=lcoords(out3),
+                temporal=tcoords(out4),
+            )
 
         return VectorObject4DType_scale_impl
 
@@ -2124,13 +2174,19 @@ def VectorObject34DType_scale2D(v, factor):
 
             def VectorObject34DType_scale2D_impl(v, factor):
                 out1, out2 = function(numpy, factor, coord1(v), coord2(v))
-                return instance_class(azcoords(out1, out2), v.longitudinal)
+                return instance_class(
+                    azimuthal=azcoords(out1, out2), longitudinal=v.longitudinal
+                )
 
         else:
 
             def VectorObject34DType_scale2D_impl(v, factor):
                 out1, out2 = function(numpy, factor, coord1(v), coord2(v))
-                return instance_class(azcoords(out1, out2), v.longitudinal, v.temporal)
+                return instance_class(
+                    azimuthal=azcoords(out1, out2),
+                    longitudinal=v.longitudinal,
+                    temporal=v.temporal,
+                )
 
         return VectorObject34DType_scale2D_impl
 
@@ -2154,7 +2210,11 @@ def VectorObject4DType_scale3D(v, factor):
 
         def VectorObject4DType_scale3D_impl(v, factor):
             out1, out2, out3 = function(numpy, factor, coord1(v), coord2(v), coord3(v))
-            return instance_class(azcoords(out1, out2), lcoords(out3), v.temporal)
+            return instance_class(
+                azimuthal=azcoords(out1, out2),
+                longitudinal=lcoords(out3),
+                temporal=v.temporal,
+            )
 
         return VectorObject4DType_scale3D_impl
 
@@ -2192,7 +2252,9 @@ def VectorObject34DType_cross(v1, v2):
                 coord22(v2),
                 coord23(v2),
             )
-            return instance_class(azcoords(out1, out2), lcoords(out3))
+            return instance_class(
+                azimuthal=azcoords(out1, out2), longitudinal=lcoords(out3)
+            )
 
     elif isinstance(v1, VectorObject3DType) and isinstance(v2, VectorObject4DType):
 
@@ -2238,7 +2300,9 @@ def VectorObject34DType_rotateX(v, angle):
                 out1, out2, out3 = function(
                     numpy, angle, coord1(v), coord2(v), coord3(v)
                 )
-                return instance_class(azcoords(out1, out2), lcoords(out3))
+                return instance_class(
+                    azimuthal=azcoords(out1, out2), temporal=lcoords(out3)
+                )
 
         else:
 
@@ -2246,7 +2310,11 @@ def VectorObject34DType_rotateX(v, angle):
                 out1, out2, out3 = function(
                     numpy, angle, coord1(v), coord2(v), coord3(v)
                 )
-                return instance_class(azcoords(out1, out2), lcoords(out3), v.temporal)
+                return instance_class(
+                    azimuthal=azcoords(out1, out2),
+                    longitudinal=lcoords(out3),
+                    temporal=v.temporal,
+                )
 
         return VectorObject34DType_rotateX_impl
 
@@ -2275,7 +2343,9 @@ def VectorObject34DType_rotateY(v, angle):
                 out1, out2, out3 = function(
                     numpy, angle, coord1(v), coord2(v), coord3(v)
                 )
-                return instance_class(azcoords(out1, out2), lcoords(out3))
+                return instance_class(
+                    azimuthal=azcoords(out1, out2), longitudinal=lcoords(out3)
+                )
 
         else:
 
@@ -2283,7 +2353,11 @@ def VectorObject34DType_rotateY(v, angle):
                 out1, out2, out3 = function(
                     numpy, angle, coord1(v), coord2(v), coord3(v)
                 )
-                return instance_class(azcoords(out1, out2), lcoords(out3), v.temporal)
+                return instance_class(
+                    azimuthal=azcoords(out1, out2),
+                    longitudinal=lcoords(out3),
+                    temporal=v.temporal,
+                )
 
         return VectorObject34DType_rotateY_impl
 
@@ -2324,7 +2398,9 @@ def VectorObject34DType_rotate_axis(v, axis, angle):
                     coord22(v),
                     coord23(v),
                 )
-                return instance_class(azcoords(out1, out2), lcoords(out3))
+                return instance_class(
+                    azimuthal=azcoords(out1, out2), longitudinal=lcoords(out3)
+                )
 
         else:
 
@@ -2339,7 +2415,11 @@ def VectorObject34DType_rotate_axis(v, axis, angle):
                     coord22(v),
                     coord23(v),
                 )
-                return instance_class(azcoords(out1, out2), lcoords(out3), v.temporal)
+                return instance_class(
+                    azimuthal=azcoords(out1, out2),
+                    longitudinal=lcoords(out3),
+                    temporal=v.temporal,
+                )
 
         return VectorObject34DType_rotate_axis
 
@@ -2383,7 +2463,9 @@ def VectorObject34DType_rotate_euler(v, phi, theta, psi, order="zxz"):
                 out1, out2, out3 = function(
                     numpy, phi, theta, psi, coord1(v), coord2(v), coord3(v)
                 )
-                return instance_class(azcoords(out1, out2), lcoords(out3))
+                return instance_class(
+                    azimuthal=azcoords(out1, out2), longitudinal=lcoords(out3)
+                )
 
         else:
 
@@ -2391,7 +2473,11 @@ def VectorObject34DType_rotate_euler(v, phi, theta, psi, order="zxz"):
                 out1, out2, out3 = function(
                     numpy, phi, theta, psi, coord1(v), coord2(v), coord3(v)
                 )
-                return instance_class(azcoords(out1, out2), lcoords(out3), v.temporal)
+                return instance_class(
+                    azimuthal=azcoords(out1, out2),
+                    longitudinal=lcoords(out3),
+                    temporal=v.temporal,
+                )
 
         return VectorObject34DType_rotate_axis_impl
 
@@ -2428,7 +2514,9 @@ def VectorObject34DType_rotate_nautical(v, yaw, pitch, roll):
                 out1, out2, out3 = function(
                     numpy, roll, pitch, yaw, coord1(v), coord2(v), coord3(v)
                 )
-                return instance_class(azcoords(out1, out2), lcoords(out3))
+                return instance_class(
+                    azimuthal=azcoords(out1, out2), longitudinal=lcoords(out3)
+                )
 
         else:
 
@@ -2436,7 +2524,11 @@ def VectorObject34DType_rotate_nautical(v, yaw, pitch, roll):
                 out1, out2, out3 = function(
                     numpy, roll, pitch, yaw, coord1(v), coord2(v), coord3(v)
                 )
-                return instance_class(azcoords(out1, out2), lcoords(out3), v.temporal)
+                return instance_class(
+                    azimuthal=azcoords(out1, out2),
+                    longitudinal=lcoords(out3),
+                    temporal=v.temporal,
+                )
 
         return VectorObject34DType_rotate_nautical_impl
 
@@ -2474,7 +2566,9 @@ def VectorObject34DType_rotate_quaternion(v, u, i, j, k):
                 out1, out2, out3 = function(
                     numpy, u, i, j, k, coord1(v), coord2(v), coord3(v)
                 )
-                return instance_class(azcoords(out1, out2), lcoords(out3))
+                return instance_class(
+                    azimuthal=azcoords(out1, out2), longitudinal=lcoords(out3)
+                )
 
         else:
 
@@ -2482,7 +2576,11 @@ def VectorObject34DType_rotate_quaternion(v, u, i, j, k):
                 out1, out2, out3 = function(
                     numpy, u, i, j, k, coord1(v), coord2(v), coord3(v)
                 )
-                return instance_class(azcoords(out1, out2), lcoords(out3), v.temporal)
+                return instance_class(
+                    azimuthal=azcoords(out1, out2),
+                    longitudinal=lcoords(out3),
+                    temporal=v.temporal,
+                )
 
         return VectorObject34DType_rotate_quaternion_impl
 
@@ -2526,7 +2624,9 @@ def VectorObject34DType_transform3D(v, obj):
                 coord2(v),
                 coord3(v),
             )
-            return instance_class(azcoords(out1, out2), lcoords(out3))
+            return instance_class(
+                azimuthal=azcoords(out1, out2), longitudinal=lcoords(out3)
+            )
 
     else:
 
@@ -2546,7 +2646,11 @@ def VectorObject34DType_transform3D(v, obj):
                 coord2(v),
                 coord3(v),
             )
-            return instance_class(azcoords(out1, out2), lcoords(out3), v.temporal)
+            return instance_class(
+                azimuthal=azcoords(out1, out2),
+                longitudinal=lcoords(out3),
+                temporal=v.temporal,
+            )
 
     return VectorObject34DType_transform3D_impl
 
@@ -2591,7 +2695,11 @@ def VectorObject4DType_boost_p4(v, p4):
             coord23(p4),
             coord24(p4),
         )
-        return instance_class(azcoords(out1, out2), lcoords(out3), tcoords(out4))
+        return instance_class(
+            azimuthal=azcoords(out1, out2),
+            longitudinal=lcoords(out3),
+            temporal=tcoords(out4),
+        )
 
     return VectorObject4DType_boost_p4_impl
 
@@ -2633,7 +2741,11 @@ def VectorObject4DType_boost_beta3(v, beta3):
             coord22(beta3),
             coord23(beta3),
         )
-        return instance_class(azcoords(out1, out2), lcoords(out3), tcoords(out4))
+        return instance_class(
+            azimuthal=azcoords(out1, out2),
+            longitudinal=lcoords(out3),
+            temporal=tcoords(out4),
+        )
 
     return VectorObject4DType_boost_beta3_impl
 
@@ -2755,7 +2867,9 @@ def add_boostXYZ(methodname):
                     coord4(v),
                 )
                 return instance_class(
-                    azcoords(out1, out2), lcoords(out3), tcoords(out4)
+                    azimuthal=azcoords(out1, out2),
+                    longitudinal=lcoords(out3),
+                    temporal=tcoords(out4),
                 )
 
         else:
@@ -2770,7 +2884,9 @@ def add_boostXYZ(methodname):
                     coord4(v),
                 )
                 return instance_class(
-                    azcoords(out1, out2), lcoords(out3), tcoords(out4)
+                    azimuthal=azcoords(out1, out2),
+                    longitudinal=lcoords(out3),
+                    temporal=tcoords(out4),
                 )
 
         return VectorObject4DType_boostXYZ_impl
@@ -2804,7 +2920,9 @@ def VectorObject4DType_to_beta3(v):
             coord3(v),
             coord4(v),
         )
-        return instance_class(azcoords(out1, out2), lcoords(out3))
+        return instance_class(
+            azimuthal=azcoords(out1, out2), longitudinal=lcoords(out3)
+        )
 
     return VectorObject4DType_to_beta3_impl
 
@@ -2850,7 +2968,11 @@ def VectorObject4DType_transform4D(v, obj):
             coord3(v),
             coord4(v),
         )
-        return instance_class(azcoords(out1, out2), lcoords(out3), tcoords(out4))
+        return instance_class(
+            azimuthal=azcoords(out1, out2),
+            longitudinal=lcoords(out3),
+            temporal=tcoords(out4),
+        )
 
     return VectorObject4DType_transform4D_impl
 

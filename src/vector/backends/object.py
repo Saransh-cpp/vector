@@ -667,7 +667,7 @@ class VectorObject2D(VectorObject, Planar, Vector2D):
         return cls(azimuthal=AzimuthalObjectRhoPhi(rho, phi))
 
     def __init__(
-        self, azimuthal: AzimuthalObject | None = None, **kwargs: float
+        self, *, azimuthal: AzimuthalObject | None = None, **kwargs: float
     ) -> None:
         if not _is_type_safe(kwargs):
             raise TypeError("a coordinate must be of the type int or float")
@@ -694,7 +694,9 @@ class VectorObject2D(VectorObject, Planar, Vector2D):
                 else:
                     raise TypeError(f"{complaint}\n\nor their momentum equivalents")
         else:
-            raise TypeError("must give Azimuthal if not giving keyword arguments")
+            raise TypeError(
+                "must give either Azimuthal or individual coordinates as keyword arguments"
+            )
 
     def __repr__(self) -> str:
         aznames = _coordinate_class_to_names[_aztype(self)]
@@ -1051,6 +1053,7 @@ class VectorObject3D(VectorObject, Spatial, Vector3D):
 
     def __init__(
         self,
+        *,
         azimuthal: AzimuthalObject | None = None,
         longitudinal: LongitudinalObject | None = None,
         **kwargs: float,
@@ -1065,7 +1068,7 @@ class VectorObject3D(VectorObject, Spatial, Vector3D):
         if not kwargs and azimuthal is not None and longitudinal is not None:
             self.azimuthal = azimuthal
             self.longitudinal = longitudinal
-        elif kwargs and azimuthal is None:
+        elif kwargs and azimuthal is None and longitudinal is None:
             if set(kwargs) == {"x", "y", "z"}:
                 self.azimuthal = AzimuthalObjectXY(kwargs["x"], kwargs["y"])
                 self.longitudinal = LongitudinalObjectZ(kwargs["z"])
@@ -1100,7 +1103,7 @@ class VectorObject3D(VectorObject, Spatial, Vector3D):
                     raise TypeError(f"{complaint}\n\nor their momentum equivalents")
         else:
             raise TypeError(
-                "must give Azimuthal and Longitudinal if not giving keyword arguments"
+                "must give either Azimuthal and Longitudinal or individual coordinates as keyword arguments"
             )
 
     def __repr__(self) -> str:
@@ -1721,6 +1724,7 @@ class VectorObject4D(VectorObject, Lorentz, Vector4D):
 
     def __init__(
         self,
+        *,
         azimuthal: AzimuthalObject | None = None,
         longitudinal: LongitudinalObject | None = None,
         temporal: TemporalObject | None = None,
@@ -1739,7 +1743,7 @@ class VectorObject4D(VectorObject, Lorentz, Vector4D):
             self.azimuthal = azimuthal
             self.longitudinal = longitudinal
             self.temporal = temporal
-        elif kwargs and azimuthal is None:
+        elif kwargs and azimuthal is None and longitudinal is None and temporal is None:
             if set(kwargs) == {"x", "y", "z", "t"}:
                 self.azimuthal = AzimuthalObjectXY(kwargs["x"], kwargs["y"])
                 self.longitudinal = LongitudinalObjectZ(kwargs["z"])
@@ -1810,7 +1814,7 @@ class VectorObject4D(VectorObject, Lorentz, Vector4D):
                     raise TypeError(f"{complaint}\n\nor their momentum equivalents")
         else:
             raise TypeError(
-                "must give Azimuthal, Longitudinal, and Temporal if not giving keyword arguments"
+                "must give either Azimuthal, Longitudinal, and Temporal, or individual coordinates as keyword arguments"
             )
 
     def __repr__(self) -> str:

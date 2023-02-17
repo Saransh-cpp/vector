@@ -130,85 +130,85 @@ def test_VectorObjectconstructor():
     @numba.njit
     def vector_xy():
         return vector.backends.object.VectorObject2D(
-            vector.backends.object.AzimuthalObjectXY(1, 2.2)
+            azimuthal=vector.backends.object.AzimuthalObjectXY(1, 2.2)
         )
 
     @numba.njit
     def vector_rhophi():
         return vector.backends.object.VectorObject2D(
-            vector.backends.object.AzimuthalObjectRhoPhi(1, 2.2)
+            azimuthal=vector.backends.object.AzimuthalObjectRhoPhi(1, 2.2)
         )
 
     @numba.njit
     def momentum_xy():
         return vector.backends.object.MomentumObject2D(
-            vector.backends.object.AzimuthalObjectXY(1, 2.2)
+            azimuthal=vector.backends.object.AzimuthalObjectXY(1, 2.2)
         )
 
     @numba.njit
     def momentum_rhophi():
         return vector.backends.object.MomentumObject2D(
-            vector.backends.object.AzimuthalObjectRhoPhi(1, 2.2)
+            azimuthal=vector.backends.object.AzimuthalObjectRhoPhi(1, 2.2)
         )
 
     @numba.njit
     def vector_xyz():
         return vector.backends.object.VectorObject3D(
-            vector.backends.object.AzimuthalObjectXY(1, 2.2),
-            vector.backends.object.LongitudinalObjectZ(3),
+            azimuthal=vector.backends.object.AzimuthalObjectXY(1, 2.2),
+            longitudinal=vector.backends.object.LongitudinalObjectZ(3),
         )
 
     @numba.njit
     def momentum_xyz():
         return vector.backends.object.MomentumObject3D(
-            vector.backends.object.AzimuthalObjectXY(1, 2.2),
-            vector.backends.object.LongitudinalObjectZ(3),
+            azimuthal=vector.backends.object.AzimuthalObjectXY(1, 2.2),
+            longitudinal=vector.backends.object.LongitudinalObjectZ(3),
         )
 
     @numba.njit
     def vector_rhophitheta():
         return vector.backends.object.VectorObject3D(
-            vector.backends.object.AzimuthalObjectRhoPhi(1, 2.2),
-            vector.backends.object.LongitudinalObjectTheta(3),
+            azimuthal=vector.backends.object.AzimuthalObjectRhoPhi(1, 2.2),
+            longitudinal=vector.backends.object.LongitudinalObjectTheta(3),
         )
 
     @numba.njit
     def momentum_rhophitheta():
         return vector.backends.object.MomentumObject3D(
-            vector.backends.object.AzimuthalObjectRhoPhi(1, 2.2),
-            vector.backends.object.LongitudinalObjectTheta(3),
+            azimuthal=vector.backends.object.AzimuthalObjectRhoPhi(1, 2.2),
+            longitudinal=vector.backends.object.LongitudinalObjectTheta(3),
         )
 
     @numba.njit
     def vector_xyzt():
         return vector.backends.object.VectorObject4D(
-            vector.backends.object.AzimuthalObjectXY(1, 2.2),
-            vector.backends.object.LongitudinalObjectZ(3),
-            vector.backends.object.TemporalObjectT(4),
+            azimuthal=vector.backends.object.AzimuthalObjectXY(1, 2.2),
+            longitudinal=vector.backends.object.LongitudinalObjectZ(3),
+            temporal=vector.backends.object.TemporalObjectT(4),
         )
 
     @numba.njit
     def momentum_xyzt():
         return vector.backends.object.MomentumObject4D(
-            vector.backends.object.AzimuthalObjectXY(1, 2.2),
-            vector.backends.object.LongitudinalObjectZ(3),
-            vector.backends.object.TemporalObjectT(4),
+            azimuthal=vector.backends.object.AzimuthalObjectXY(1, 2.2),
+            longitudinal=vector.backends.object.LongitudinalObjectZ(3),
+            temporal=vector.backends.object.TemporalObjectT(4),
         )
 
     @numba.njit
     def vector_rhophietatau():
         return vector.backends.object.VectorObject4D(
-            vector.backends.object.AzimuthalObjectRhoPhi(1, 2.2),
-            vector.backends.object.LongitudinalObjectEta(3),
-            vector.backends.object.TemporalObjectTau(4),
+            azimuthal=vector.backends.object.AzimuthalObjectRhoPhi(1, 2.2),
+            longitudinal=vector.backends.object.LongitudinalObjectEta(3),
+            temporal=vector.backends.object.TemporalObjectTau(4),
         )
 
     @numba.njit
     def momentum_rhophietatau():
         return vector.backends.object.MomentumObject4D(
-            vector.backends.object.AzimuthalObjectRhoPhi(1, 2.2),
-            vector.backends.object.LongitudinalObjectEta(3),
-            vector.backends.object.TemporalObjectTau(4),
+            azimuthal=vector.backends.object.AzimuthalObjectRhoPhi(1, 2.2),
+            longitudinal=vector.backends.object.LongitudinalObjectEta(3),
+            temporal=vector.backends.object.TemporalObjectTau(4),
         )
 
     out = vector_xy()

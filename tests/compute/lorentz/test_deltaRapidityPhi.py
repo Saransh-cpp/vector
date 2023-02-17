@@ -14,14 +14,14 @@ import vector.backends.object
 
 def test_lorentz_object():
     v1 = vector.backends.object.MomentumObject4D(
-        vector.backends.object.AzimuthalObjectXY(1.0, 1.0),
-        vector.backends.object.LongitudinalObjectZ(1.0),
-        vector.backends.object.TemporalObjectTau(1.0),
+        azimuthal=vector.backends.object.AzimuthalObjectXY(1.0, 1.0),
+        longitudinal=vector.backends.object.LongitudinalObjectZ(1.0),
+        temporal=vector.backends.object.TemporalObjectTau(1.0),
     )
     v2 = vector.backends.object.MomentumObject4D(
-        vector.backends.object.AzimuthalObjectXY(-1.0, -1.0),
-        vector.backends.object.LongitudinalObjectZ(-1.0),
-        vector.backends.object.TemporalObjectTau(1.0),
+        azimuthal=vector.backends.object.AzimuthalObjectXY(-1.0, -1.0),
+        longitudinal=vector.backends.object.LongitudinalObjectZ(-1.0),
+        temporal=vector.backends.object.TemporalObjectTau(1.0),
     )
     expected_result = numpy.sqrt(
         # phi
