@@ -1,5 +1,5 @@
 ---
-title: "Vector: arrays of 2D, 3D, and Lorentz vectors"
+title: "Vector: creating and manipulating jagged arrays of Lorentz vectors"
 tags:
   - Python
   - vector algebra
@@ -68,13 +68,13 @@ Vector has become the de facto library for vector algebra in Python based high
 energy physics data analysis pipelines. The library has been installed over
 2 million times and 314 GitHub repositories use it as a dependency at the time
 of writing this paper. Along with being utilized directly in analysis pipelines
-at LHC and other experiments [@Kling:2023; @Held:2024; Qu:2022], the library is 
-also used as a dependency in user-facing frameworks, such as, Coffea, MadMiner 
-[@Brehmer:2020], FastJet [@aryan:2023], Spyral [@spyral-utils:2024], Weaver 
-[@weaver-core:2024], and pylhe [@pylhe]. The library is also used in multiple 
-teaching materials for graduate courses and workshops. Finally, given the 
-generic nature of the library, it is also often used in non high energy physics 
-use cases.
+at LHC and other experiments [@Kling:2023; @Held:2024; @Qu:2022], the library 
+is also used as a dependency in user-facing frameworks, such as, Coffea, 
+MadMiner [@Brehmer:2020], FastJet [@aryan:2023], Spyral [@spyral-utils:2024], 
+Weaver [@weaver-core:2024], and pylhe [@pylhe]. The library is also used in 
+multiple teaching materials for graduate courses and workshops. Finally, given 
+the generic nature of the library, it is also often used in non high energy 
+physics use cases.
 
 # Acknowledgements
 
