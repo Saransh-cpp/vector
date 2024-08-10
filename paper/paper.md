@@ -45,7 +45,7 @@ high energy physics experiments.
 
 # Statement of need
 
-Vcetor is currently the only Lorentz vector library providing a Pythonic
+Vector is currently the only Lorentz vector library providing a Pythonic
 interface but a C++ (through Awkward Array [@Pivarski:2018]) computational 
 backend. Vector integrates seamlessly with the existing high energy physics 
 ecosystem and the broader scientific Python ecosystem, including libraries like 
